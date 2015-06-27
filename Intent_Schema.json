@@ -7,6 +7,10 @@
           "name": "NumberOfPlayer",
           "type": "Number"
         }
+        {
+            "name": "Range",
+            "type": "Number"
+        }
       ]
     },
     {

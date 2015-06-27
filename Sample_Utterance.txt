@@ -1,28 +1,54 @@
-WhatsMyColorIntent what's my favorite color
-WhatsMyColorIntent what is my favorite color
-WhatsMyColorIntent what's my color
-WhatsMyColorIntent what is my color
-WhatsMyColorIntent my color
-WhatsMyColorIntent my favorite color
-WhatsMyColorIntent get my color
-WhatsMyColorIntent get my favorite color
-WhatsMyColorIntent give me my favorite color
-WhatsMyColorIntent give me my color
-WhatsMyColorIntent what my color is
-WhatsMyColorIntent what my favorite color is
-WhatsMyColorIntent yes
-WhatsMyColorIntent yup
-WhatsMyColorIntent sure
-WhatsMyColorIntent yes please
-MyColorIsIntent my favorite color is {green|Color}
-MyColorIsIntent my favorite color is {red|Color}
-MyColorIsIntent my favorite color is {blue|Color}
-MyColorIsIntent my favorite color is {orange|Color}
-MyColorIsIntent my favorite color is {gold|Color}
-MyColorIsIntent my favorite color is {silver|Color}
-MyColorIsIntent my favorite color is {yellow|Color}
-MyColorIsIntent my favorite color is {black|Color}
-MyColorIsIntent my favorite color is {white|Color}
+StartGameIntent Start new game with {two|NumberOfPlayer} players.
+StartGameIntent Start new game with {three|NumberOfPlayer} players.
+StartGameIntent Start new game with {four|NumberOfPlayer} players.
+StartGameIntent Start new game with {five|NumberOfPlayer} players.
+StartGameIntent Start new game with {six|NumberOfPlayer} players.
+StartGameIntent Start new game with {seven|NumberOfPlayer} players.
+StartGameIntent Start new game with {eight|NumberOfPlayer} players.
+StartGameIntent Start new game with {nine|NumberOfPlayer} players.
+StartGameIntent Start new game with {ten|NumberOfPlayer} players.
+StartGameIntent Start new game with {five|NumberOfPlayer} players and a number less than {fifty|Range}
+StartGameIntent Start new game with {three|NumberOfPlayer} players and a number less than {one hundred|Range}
+StartGameIntent Start new game with {ten|NumberOfPlayer} players and a number less than {five hundred|Range}
+StartGameIntent Start new game with {ten|NumberOfPlayer} players and a number less than {one thousand|Range}
+StartGameIntent Start new game with {ten|NumberOfPlayer} players and a number less than {two thousand|Range}
+StartGameIntent Start new game with {four|NumberOfPlayer} players and a number less than {two hundred and fifty|Range}
+StartGameIntent Start new game with {two|NumberOfPlayer} players and a number less than {eighty five|Range}
+MakeAGuessIntent {one|Guess}
+MakeAGuessIntent {twenty one|Guess}
+MakeAGuessIntent {one hundred and nine|Guess}
+MakeAGuessIntent {one o one|Guess}
+MakeAGuessIntent {one twelve|Guess}
+MakeAGuessIntent {one thousand two hundred and twenty one|Guess}
+MakeAGuessIntent {five hundred and seventy six|Guess}
+MakeAGuessIntent {eighteen seventeen|guess}
+MakeAGuessIntent I'll guess {thirty four|Guess}
+MakeAGuessIntent I'll guess {seven|Guess}
+MakeAGuessIntent I'm going to guess {sixty eight|Guess}
+MakeAGuessIntent I'm going to guess {four|Guess}
+MakeAGuessIntent I'm gonna guess {twelve|Guess}
+MakeAGuessIntent I'm gonna guess {forty three|Guess}
+MakeAGuessIntent How about {eight|Guess}
+MakeAGuessIntent How about {seventy five|Guess}
+ChoosePenaltyIntent I choose {question|Choice}
+ChoosePenaltyIntent I will answer a {question|Choice}
+ChoosePenaltyIntent I'll answer a {question|Choice}
+ChoosePenaltyIntent I will do {question|Choice}
+ChoosePenaltyIntent I'll do {question|Choice}
+ChoosePenaltyIntent I will take {question|Choice}
+ChoosePenaltyIntent I'll take {question|Choice}
+ChoosePenaltyIntent How about {question|Choice}
+ChoosePenaltyIntent {question|Choice} sounds good
+ChoosePenaltyIntent {question|Choice} sounds like a good idea
+ChoosePenaltyIntent I choose {adventure|Choice}
+ChoosePenaltyIntent I will do {adventure|Choice}
+ChoosePenaltyIntent I'll do {adventure|Choice}
+ChoosePenaltyIntent How about {adventure|Choice}
+ChoosePenaltyIntent I will go on an {adventure|Choice}
+ChoosePenaltyIntent I'll go on an {adventure|Choice}
+ChoosePenaltyIntent I will take on an {adventure|Choice}
+ChoosePenaltyIntent I'll take on an {adventure}
+ChoosePenaltyIntent {adventure|Choice} sounds like a good idea
 HelpIntent help
 HelpIntent help me
 HelpIntent what can I ask you
