@@ -1,18 +1,33 @@
 {
   "intents": [
     {
-     "intent": "MyColorIsIntent",
+     "intent": "StartGameIntent",
      "slots": [
         {
-          "name": "Color",
-          "type": "LITERAL"
+          "name": "NumberOfPlayer",
+          "type": "Number"
         }
       ]
     },
     {
-      "intent": "WhatsMyColorIntent",
-      "slots": []
+      "intent": "MakeAGuessIntent",
+      "slots": [
+        {
+            "name": "Guess",
+            "type": "Number"
+        }
+      ]
     },
+    {
+      "intent": "ChoosePenaltyIntent",
+      "slots": [
+        {
+            "name": "Choice",
+            "type": "LITERAL"
+        }
+      ]
+
+        },
     {
       "intent": "HelpIntent",
       "slots": []
