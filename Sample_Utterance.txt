@@ -1,4 +1,4 @@
-StartIntent start
+StartIntent start the game
 GuessNumberIntent I say {twenty five|number}
 GuessNumberIntent I say {one|number}
 GuessNumberIntent I say {four|number}
