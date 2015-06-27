@@ -1,6 +1,4 @@
-StartIntent start
-StartIntent start game
-StartIntent begin
+StartIntent start the game
 GuessNumberIntent my guess number is {two|Number}
 GuessNumberIntent my guess number is {one|Number}
 GuessNumberIntent my guess number is {five|Number}
@@ -12,6 +10,8 @@ GuessNumberIntent my guess number is {twelve|Number}
 GuessNumberIntent my guess number is {six|Number}
 GuessNumberIntent my guess number is {twenty five|Number}
 GuessNumberIntent my guess number is {thirty three|Number}
+ChoosePunishmentIntent truth
+ChoosePunishmentIntent dare
 HelpIntent help
 HelpIntent help me
 HelpIntent what can I ask you

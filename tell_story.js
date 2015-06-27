@@ -17,10 +17,10 @@ exports.handler = function (event, context) {
          * prevent someone else from configuring a skill that sends requests to this function.
          */
         /*
-        if (event.session.application.applicationId !== "amzn1.echo-sdk-ams.app.[unique-value-here]") {
-             context.fail("Invalid Application ID");
+         if (event.session.application.applicationId !== "amzn1.echo-sdk-ams.app.[unique-value-here]") {
+         context.fail("Invalid Application ID");
          }
-        */
+         */
 
         if (event.session.new) {
             onSessionStarted({requestId: event.request.requestId}, event.session);
@@ -28,16 +28,16 @@ exports.handler = function (event, context) {
 
         if (event.request.type === "LaunchRequest") {
             onLaunch(event.request,
-                     event.session,
-                     function callback(sessionAttributes, speechletResponse) {
-                        context.succeed(buildResponse(sessionAttributes, speechletResponse));
-                     });
+                event.session,
+                function callback(sessionAttributes, speechletResponse) {
+                    context.succeed(buildResponse(sessionAttributes, speechletResponse));
+                });
         }  else if (event.request.type === "IntentRequest") {
             onIntent(event.request,
-                     event.session,
-                     function callback(sessionAttributes, speechletResponse) {
-                         context.succeed(buildResponse(sessionAttributes, speechletResponse));
-                     });
+                event.session,
+                function callback(sessionAttributes, speechletResponse) {
+                    context.succeed(buildResponse(sessionAttributes, speechletResponse));
+                });
         } else if (event.request.type === "SessionEndedRequest") {
             onSessionEnded(event.request, event.session);
             context.succeed();
@@ -52,8 +52,7 @@ exports.handler = function (event, context) {
  */
 function onSessionStarted(sessionStartedRequest, session) {
     console.log("onSessionStarted requestId=" + sessionStartedRequest.requestId
-                + ", sessionId=" + session.sessionId);
-
+        + ", sessionId=" + session.sessionId);
 }
 
 /**
@@ -61,7 +60,7 @@ function onSessionStarted(sessionStartedRequest, session) {
  */
 function onLaunch(launchRequest, session, callback) {
     console.log("onLaunch requestId=" + launchRequest.requestId
-                + ", sessionId=" + session.sessionId);
+        + ", sessionId=" + session.sessionId);
 
     // Dispatch to your skill's launch.
     getWelcomeResponse(callback);
@@ -72,20 +71,20 @@ function onLaunch(launchRequest, session, callback) {
  */
 function onIntent(intentRequest, session, callback) {
     console.log("onIntent requestId=" + intentRequest.requestId
-                + ", sessionId=" + session.sessionId);
+        + ", sessionId=" + session.sessionId);
 
     var intent = intentRequest.intent,
         intentName = intentRequest.intent.name;
 
     // Dispatch to your skill's intent handlers
-    if ("StartIntent" === intentName) {
-        startGame(intent, session, callback);
-    } else if ("GuessNumberIntent" === intentName) {
+    if ("GuessNumberIntent" === intentName) {
         guessNumber(intent, session, callback);
+    } else if ("StartIntent" === intentName) {
+        startGame(intent, session, callback);
     } else if ("HelpIntent" === intentName) {
         getWelcomeResponse(callback);
     } else {
-        throw "blabla intent";
+        throw "Invalid intent";
     }
 }
 
@@ -95,7 +94,7 @@ function onIntent(intentRequest, session, callback) {
  */
 function onSessionEnded(sessionEndedRequest, session) {
     console.log("onSessionEnded requestId=" + sessionEndedRequest.requestId
-                + ", sessionId=" + session.sessionId);
+        + ", sessionId=" + session.sessionId);
     // Add cleanup logic here
 }
 
@@ -105,15 +104,17 @@ function getWelcomeResponse(callback) {
     var sessionAttributes = {};
     var cardTitle = "Welcome";
     var speechOutput = "Welcome to the Alexa game, number trap, "
-                + "To begin, please say, start";
+        + "To begin, please say, start the game";
     var repromptText = "To begin, please say, start";
     var shouldEndSession = false;
 
     callback(sessionAttributes,
-             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
+
 function speakNumber(low, high) {
+    console.log("speakNumber: " + low);
     return "Number trap, " + low + " to " + high;
 };
 
@@ -130,15 +131,27 @@ function startGame(intent, session, callback) {
     var shouldEndSession = false;
     var speechOutput = "";
 
-    session.numberTrap = Math.floor((Math.random() * DEFAULT_NUMBER) + 1);
-    session.lowNumber = LOW_NUMBER;
-    session.highNumber = HIGH_NUMBER;
-    speechOutput = speakNumber(session.lowNumber, session.highNumber);
-    repromptText = speakNumber(session.lowNumber, session.highNumber);
+    sessionAttributes = {
+//        numberTrap: Math.floor((Math.random() * DEFAULT_NUMBER) + 1),
+        numberTrap: 50,
+        lowNumber: LOW_NUMBER,
+        highNumber: HIGH_NUMBER
+    };
+    speechOutput = speakNumber(sessionAttributes.lowNumber, sessionAttributes.highNumber)
+        + ", To guess a number, say, my guess number is twenty five";
+    console.log("numberTrap: " + sessionAttributes.numberTrap);
+    console.log(speechOutput);
+    repromptText = speakNumber(sessionAttributes.lowNumber, sessionAttributes.highNumber)
+        + ", To guess a number, say, my guess number is twenty five";
 
     callback(sessionAttributes,
-             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
+
+function generatePunishment() {
+    return ". Truth or dare, "
+        + "Who was your first crush, or who is your current crush?";
+};
 
 function guessNumber(intent, session, callback) {
     var cardTitle = intent.name;
@@ -152,20 +165,23 @@ function guessNumber(intent, session, callback) {
     var speechOutput = "";
 
     if (session.attributes) {
-        numberTrap = session.numberTrap;
-        lowNumber = session.lowNumber;
-        highNumber = session.highNumber;
+        numberTrap = parseInt(session.attributes.numberTrap);
+        lowNumber = parseInt(session.attributes.lowNumber);
+        highNumber = parseInt(session.attributes.highNumber);
     }
-
+    console.log("session.attributes.numberTrap: " + parseInt(session.attributes.numberTrap));
+    guessNumber = parseInt(intent.slots.Number.value);
+    console.log(guessNumber);
     if (!highNumber || !lowNumber || !numberTrap) {
         speechOutput = "You didn't start the game. Please say, start";
         shouldEndSession = false;
     } else if (!guessNumber) {
         speechOutput = "I don't know what you said, please say, "
-            + "I say 25";
+            + "my guess number is twenty five";
         shouldEndSession = false;
     } else if (guessNumber === numberTrap) {
         speechOutput = "ha ha ha ha, You hit the trap";
+        speechOutput += generatePunishment();
         shouldEndSession = true;
     } else if (guessNumber > highNumber || guessNumber < lowNumber) {
         speechOutput = "Your number is invalid, please say a number between "
@@ -174,20 +190,25 @@ function guessNumber(intent, session, callback) {
     } else {
         if (guessNumber > numberTrap) {
             speechOutput = speakNumber(lowNumber, guessNumber - 1);
-            session.highNumber = guessNumber - 1;
+            highNumber = guessNumber - 1;
             shouldEndSession = false;
         } else {
             speechOutput = speakNumber(guessNumber + 1, highNumber);
-            session.lowNumber = guessNumber + 1;
+            lowNumber = guessNumber + 1;
             shouldEndSession = false;
         }
     }
-
+    sessionAttributes = {
+        highNumber: highNumber,
+        lowNumber: lowNumber,
+        numberTrap: numberTrap
+    };
+    console.log(speechOutput);
     // Setting repromptText to null signifies that we do not want to reprompt the user.
     // If the user does not respond or says something that is not understood, the session
     // will end.
     callback(sessionAttributes,
-             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
 // --------------- Helpers that build all of the responses -----------------------

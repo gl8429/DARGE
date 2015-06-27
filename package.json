@@ -21,6 +21,9 @@
     "homepage": "https://github.com/gl8429/DARGE",
     "dependencies": {
         "express": "~4.12.2",
-        "venmo": "0.0.2"
+        "venmo": "0.0.2",
+        "google-maps-api": "1.0.2",
+        "node-bing-api": "2.0.0",
+        "unirest": "0.4.2"
     }
 }
