@@ -1,4 +1,4 @@
-StartIntent start
+StartIntent start number trap game
 GuessNumberIntent my guess number is {two|Number}
 GuessNumberIntent my guess number is {one|Number}
 GuessNumberIntent my guess number is {five|Number}
@@ -15,3 +15,5 @@ HistoryTodayIntent today in history
 HistoryTodayIntent tell me a fact about today in history
 HistoryTodayIntent tell me a fact of today
 HistoryTodayIntent tell me about today in history
+NewsIntent news
+NewsIntent next news

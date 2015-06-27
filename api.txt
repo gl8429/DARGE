@@ -1,0 +1,3 @@
+quandl: qH7mgLU5U6xY2ZToMxHw
+unirest: BX2mTryaeEmshUK4TukbvzwTWmd8p19ymcWjsnM4Li601VCWqP
+Yahoo Finance API: zxCxAcN7zXVHwBtn_XsE
