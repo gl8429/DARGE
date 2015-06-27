@@ -16,6 +16,10 @@
         {
             "intent": "HelpIntent",
             "slots": []
+        },
+        {
+            "intent": "HistoryTodayIntent",
+            "slots": []
         }
     ]
 }

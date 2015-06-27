@@ -1,23 +1,4 @@
-//var Bing = require('node-bing-api')({accKey: "BzeBOUl+ph8kF3mBEezdCjQesfBD6B7u66Ot0yTi+pU"});
-//Bing.web("alexa", {
-//    top: 2, //number of results(max 50)
-//    skip: 0 // skip first 0 results
-//}, function (error, ress, body) {
-//    console.log("===body: " + body);
-//    console.log("===d: " + body.d.results['0'].Title);
-//    console.log("===ress: " + ress);
-//    console.log("===error: " + error);
-//});
-
 var unirest = require('unirest');
-//These code snippets use an open-source library. http://unirest.io/nodejs
-unirest.get("https://numbersapi.p.mashape.com/6/21/date?fragment=true&json=true")
-    .header("X-Mashape-Key", "BX2mTryaeEmshUK4TukbvzwTWmd8p19ymcWjsnM4Li601VCWqP")
-    .header("Accept", "text/plain")
-    .end(function (result) {
-        console.log(result.body.text);
-    }
-);
 
 /**
  * This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
@@ -102,6 +83,8 @@ function onIntent(intentRequest, session, callback) {
         startGame(intent, session, callback);
     } else if ("HelpIntent" === intentName) {
         getWelcomeResponse(callback);
+    } else if ("HistoryTodayIntent" === intentName) {
+        getDayInThePast(callback);
     } else {
         throw "Invalid intent";
     }
@@ -120,26 +103,40 @@ function onSessionEnded(sessionEndedRequest, session) {
 // --------------- Functions that control the skill's behavior -----------------------
 
 function getWelcomeResponse(callback) {
-
-
     var sessionAttributes = {};
     var cardTitle = "Welcome";
     var speechOutput = "failed";
-//    speechOutput = "Welcome to the Alexa game, number trap, "
-//        + "To begin, please say, start";
-    var repromptText = "To begin, please say, start";
+    var speech = "Welcome to the darge app, "
+        + "To start the number trap game, please say, number trap"
+        + "To tell a fact of today in history, say tell me about today in history";
+    speechOutput = speech;
+    var repromptText = speech;
     var shouldEndSession = false;
 
-    // These code snippets use an open-source library. http://unirest.io/nodejs
-    unirest.get("https://numbersapi.p.mashape.com/6/21/date?fragment=true&json=true")
-        .header("X-Mashape-Key", "BX2mTryaeEmshUK4TukbvzwTWmd8p19ymcWjsnM4Li601VCWqP")
-        .header("Accept", "text/plain")
-        .end(function (result) {
-            console.log(result.status, result.headers, result.body);
-            speechOutput = result.body.text;
-            callback(sessionAttributes,
-                buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
-        });
+    callback(sessionAttributes,
+        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+}
+
+function getDayInThePast(callback) {
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var sessionAttributes = {};
+    var speechOutput = "failed";
+    var cardTitle = "fact of day";
+    var repromptText = "To begin, please say, tell me about today in history";
+    var shouldEndSession = false;
+    console.log(month, day);
+    unirest.get("https://numbersapi.p.mashape.com/"
+        + month + "/" + day + "/date?fragment=true&json=true")
+    .header("X-Mashape-Key", "BX2mTryaeEmshUK4TukbvzwTWmd8p19ymcWjsnM4Li601VCWqP")
+    .header("Accept", "text/plain")
+    .end(function (result) {
+        console.log(result.body.text);
+        speechOutput = result.body.text;
+        callback(sessionAttributes,
+            buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+    });
 }
 
 
