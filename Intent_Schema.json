@@ -1,0 +1,21 @@
+{
+    "intents": [
+        {
+            "intent": "GuessNumberIntent",
+            "slots": [
+                {
+                    "name": "number",
+                    "type": "NUMBER"
+                }
+            ]
+        },
+        {
+            "intent": "StartIntent",
+            "slots": []
+        },
+        {
+            "intent": "HelpIntent",
+            "slots": []
+        }
+    ]
+}

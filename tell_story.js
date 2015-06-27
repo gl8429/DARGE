@@ -1,33 +1,6 @@
 
 
 /**
- * @param type: a string, value is "pay" or "charge"
- * @param recipient: recipient name, phone number, etc.
- * @param amount: a number in dollars
- * @param note: string, text note
- * @param audience: String, "public" or "private"
- * @constructor to create a venmo payment link
- */
-var Venmo = function(type, recipient, amount, note, audience) {
-    this.type = type;
-    this.recipient = recipient;
-    this.amount = amount;
-    this.note =  note;
-    this.audience = audience;
-    return this;
-};
-
-Venmo.baseURL = "https://venmo.com/";
-
-Venmo.prototype.getPaymentLink = function () {
-    return Venmo.baseURL + "?txn=" + this.type
-        + "&recipients=" + this.recipient
-        + "&amount=" + this.amount
-        + "&note=" + this.note
-        + "&audience=" + this.audience;
-};
-
-/**
  * This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
  * For additional samples, visit the Alexa Skills Kit developer documentation at
  * https://developer.amazon.com/appsandservices/solutions/alexa/alexa-skills-kit/getting-started-guide
@@ -80,6 +53,7 @@ exports.handler = function (event, context) {
 function onSessionStarted(sessionStartedRequest, session) {
     console.log("onSessionStarted requestId=" + sessionStartedRequest.requestId
                 + ", sessionId=" + session.sessionId);
+
 }
 
 /**
@@ -104,10 +78,10 @@ function onIntent(intentRequest, session, callback) {
         intentName = intentRequest.intent.name;
 
     // Dispatch to your skill's intent handlers
-    if ("MyColorIsIntent" === intentName) {
-        setColorInSession(intent, session, callback);
-    } else if ("WhatsMyColorIntent" === intentName) {
-        getColorFromSession(intent, session, callback);
+    if ("startIntent" === intentName) {
+        startGame(intent, session, callback);
+    } else if ("guessNumberIntent" === intentName) {
+        guessNumber(intent, session, callback);
     } else if ("HelpIntent" === intentName) {
         getWelcomeResponse(callback);
     } else {
@@ -128,81 +102,92 @@ function onSessionEnded(sessionEndedRequest, session) {
 // --------------- Functions that control the skill's behavior -----------------------
 
 function getWelcomeResponse(callback) {
-    // If we wanted to initialize the session to have some attributes we could add those here.
     var sessionAttributes = {};
     var cardTitle = "Welcome";
-    var speechOutput = "Welcome to the Alexa Skills Kit sample, "
-                + "Please tell me your favorite color by saying, "
-                + "my favorite color is red";
-    // If the user either does not reply to the welcome message or says something that is not
-    // understood, they will be prompted again with this text.
-    var repromptText = "Please tell me your favorite color by saying, "
-                + "my favorite color is red";
+    var speechOutput = "Welcome to the Alexa game, number trap, "
+                + "To begin, please say, start";
+    var repromptText = "To begin, please say, start";
     var shouldEndSession = false;
 
     callback(sessionAttributes,
              buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
+function speakNumber(low, high) {
+    return "Number trap, " + low + " to " + high;
+};
+
+var DEFAULT_NUMBER = 99;
+var LOW_NUMBER = 1;
+var HIGH_NUMBER = DEFAULT_NUMBER;
 /**
  * Sets the color in the session and prepares the speech to reply to the user.
  */
-function setColorInSession(intent, session, callback) {
+function startGame(intent, session, callback) {
     var cardTitle = intent.name;
-    var favoriteColorSlot = intent.slots.Color;
     var repromptText = "";
     var sessionAttributes = {};
     var shouldEndSession = false;
     var speechOutput = "";
 
-    if (favoriteColorSlot) {
-        favoriteColor = favoriteColorSlot.value;
-        sessionAttributes = createFavoriteColorAttributes(favoriteColor);
-        speechOutput = "I now know your favorite color is " + favoriteColor + ". You can ask me "
-                + "your favorite color by saying, what's my favorite color?";
-        repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
-    } else {
-        speechOutput = "I'm not sure what your favorite color is, please try again";
-        repromptText = "I'm not sure what your favorite color is, you can tell me your "
-                + "favorite color by saying, my favorite color is red";
-    }
+    session.numberTrap = Math.floor((Math.random() * DEFAULT_NUMBER) + 1);
+    session.lowNumber = LOW_NUMBER;
+    session.highNumber = HIGH_NUMBER;
+    speechOutput = speakNumber(session.lowNumber, session.highNumber);
+    repromptText = speakNumber(session.lowNumber, session.highNumber);
 
     callback(sessionAttributes,
              buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
-function createFavoriteColorAttributes(favoriteColor) {
-    return {
-        favoriteColor: favoriteColor
-    };
-}
-
-function getColorFromSession(intent, session, callback) {
+function guessNumber(intent, session, callback) {
     var cardTitle = intent.name;
-    var favoriteColor;
+    var guessNumber;
+    var numberTrap;
+    var lowNumber;
+    var highNumber;
     var repromptText = null;
     var sessionAttributes = {};
     var shouldEndSession = false;
     var speechOutput = "";
 
-    if(session.attributes) {
-        favoriteColor = session.attributes.favoriteColor;
+    if (session.attributes) {
+        numberTrap = session.numberTrap;
+        lowNumber = session.lowNumber;
+        highNumber = session.highNumber;
     }
 
-    if(favoriteColor) {
-        speechOutput = "Your favorite color is " + favoriteColor + ", goodbye";
+    if (!highNumber || !lowNumber || !numberTrap) {
+        speechOutput = "You didn't start the game. Please say, start";
+        shouldEndSession = false;
+    } else if (!guessNumber) {
+        speechOutput = "I don't know what you said, please say, "
+            + "I say 25";
+        shouldEndSession = false;
+    } else if (guessNumber === numberTrap) {
+        speechOutput = "ha ha ha ha, You hit the trap";
         shouldEndSession = true;
-    }
-    else {
-        speechOutput = "I'm not sure what your favorite color is, you can say, my favorite color "
-                + " is red";
+    } else if (guessNumber > highNumber || guessNumber < lowNumber) {
+        speechOutput = "Your number is invalid, please say a number between "
+            + lowNumber + " and " + highNumber;
+        shouldEndSession = false;
+    } else {
+        if (guessNumber > numberTrap) {
+            speechOutput = speakNumber(lowNumber, guessNumber - 1);
+            session.highNumber = guessNumber - 1;
+            shouldEndSession = false;
+        } else {
+            speechOutput = speakNumber(guessNumber + 1, highNumber);
+            session.lowNumber = guessNumber + 1;
+            shouldEndSession = false;
+        }
     }
 
     // Setting repromptText to null signifies that we do not want to reprompt the user.
     // If the user does not respond or says something that is not understood, the session
     // will end.
     callback(sessionAttributes,
-             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
+             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
 // --------------- Helpers that build all of the responses -----------------------
@@ -216,7 +201,7 @@ function buildSpeechletResponse(title, output, repromptText, shouldEndSession) {
         card: {
             type: "Simple",
             title: "SessionSpeechlet - " + title,
-            content: new Venmo("pay", "alex", 1, "for lunch", "private").getPaymentLink()
+            content: output
         },
         reprompt: {
             outputSpeech: {
