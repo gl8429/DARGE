@@ -18,10 +18,6 @@
             "slots": []
         },
         {
-            "intent": "HistoryTodayIntent",
-            "slots": []
-        },
-        {
             "intent": "NewsIntent",
             "slots": []
         }

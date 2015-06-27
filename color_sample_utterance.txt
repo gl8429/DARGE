@@ -11,9 +11,5 @@ GuessNumberIntent my guess number is {six|Number}
 GuessNumberIntent my guess number is {twenty five|Number}
 GuessNumberIntent my guess number is {thirty three|Number}
 HelpIntent help
-HistoryTodayIntent today in history
-HistoryTodayIntent tell me a fact about today in history
-HistoryTodayIntent tell me a fact of today
-HistoryTodayIntent tell me about today in history
 NewsIntent news
 NewsIntent next news

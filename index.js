@@ -197,7 +197,8 @@ function getWelcomeResponse(callback) {
                     sessionAttributes = {
                         newsIndex: "" + 1
                     }
-                    speechOutput = "Welcome to morning brief. " + weatherText + stockText + DayInThePast + newsText;
+                    speechOutput = "Welcome to morning brief. " + weatherText + stockText + DayInThePast + newsText
+                        + ". to here more news, say news";
                     console.log("start to populate session..." + speechOutput);
 //                    speechOutput = "ha ha";
                     callback(sessionAttributes,
@@ -361,7 +362,7 @@ function startGame(intent, session, callback) {
 }
 
 function generatePunishment() {
-    return ". Truth or dare. ";
+    return "";
 };
 
 function guessNumber(intent, session, callback) {
