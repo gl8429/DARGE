@@ -1,0 +1,39 @@
+WhatsMyColorIntent what's my favorite color
+WhatsMyColorIntent what is my favorite color
+WhatsMyColorIntent what's my color
+WhatsMyColorIntent what is my color
+WhatsMyColorIntent my color
+WhatsMyColorIntent my favorite color
+WhatsMyColorIntent get my color
+WhatsMyColorIntent get my favorite color
+WhatsMyColorIntent give me my favorite color
+WhatsMyColorIntent give me my color
+WhatsMyColorIntent what my color is
+WhatsMyColorIntent what my favorite color is
+WhatsMyColorIntent yes
+WhatsMyColorIntent yup
+WhatsMyColorIntent sure
+WhatsMyColorIntent yes please
+MyColorIsIntent my favorite color is {green|Color}
+MyColorIsIntent my favorite color is {red|Color}
+MyColorIsIntent my favorite color is {blue|Color}
+MyColorIsIntent my favorite color is {orange|Color}
+MyColorIsIntent my favorite color is {gold|Color}
+MyColorIsIntent my favorite color is {silver|Color}
+MyColorIsIntent my favorite color is {yellow|Color}
+MyColorIsIntent my favorite color is {black|Color}
+MyColorIsIntent my favorite color is {white|Color}
+HelpIntent help
+HelpIntent help me
+HelpIntent what can I ask you
+HelpIntent get help
+HelpIntent what commands can I ask
+HelpIntent what commands can I say
+HelpIntent what can I do
+HelpIntent what can I use this for
+HelpIntent what questions can I ask
+HelpIntent what can you do
+HelpIntent what do you do
+HelpIntent how do I use you
+HelpIntent how can I use you
+HelpIntent what can you tell me
