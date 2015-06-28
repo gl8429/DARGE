@@ -1,3 +1,15 @@
+/*
+ Team name: Drage
+ Team members:
+ Dichen Li, Yijie Qiu, Guangyu Lin, Yi Ding, Zhongyang Xiao
+ App name: morning brief, and number trap game
+ API used:
+ new york times top stories API http://developer.nytimes.com/docs/top_stories_api/#h2-examples
+ yahoo finance API https://www.enclout.com/api/v1/yahoo_finance
+ mashape weather API https://www.mashape.com/fyhao/weather-13#
+ Numbers API http://numbersapi.com/#42
+*/
+
 var unirest = require('unirest');
 var http = require("http");
 var https = require("https");
@@ -348,7 +360,7 @@ function startGame(intent, session, callback) {
 
     sessionAttributes = {
         numberTrap: Math.floor((Math.random() * DEFAULT_NUMBER) + 1),
-//        numberTrap: 50,
+//        numberTrap: 23,
         lowNumber: LOW_NUMBER,
         highNumber: HIGH_NUMBER
     };
